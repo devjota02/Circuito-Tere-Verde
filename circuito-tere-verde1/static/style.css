@@ -1,0 +1,273 @@
+
+:root {
+    --primary-color: #2c6b2f; 
+    --secondary-color: #4CAF50; 
+    --text-color: #333;
+    --light-gray: #f4f4f4;
+    --white: #ffffff;
+    --shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: var(--white);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+header {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+#admin-login-btn {
+    background: var(--secondary-color);
+    color: var(--white);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+#admin-login-btn:hover {
+    background-color: #45a049;
+}
+
+
+main {
+    padding: 2rem 0;
+}
+
+section {
+    margin-bottom: 2.5rem;
+}
+
+h2, h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    border-bottom: 2px solid var(--light-gray);
+    padding-bottom: 0.5rem;
+}
+
+
+#trail-filter {
+    margin-bottom: 1.5rem;
+}
+
+.filter-btn {
+    background: var(--light-gray);
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    background: #ddd;
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+
+.trail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.trail-card {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.trail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.trail-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.trail-card-content {
+    padding: 1rem;
+}
+
+.trail-card-content h4 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.difficulty-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: var(--white);
+    font-weight: 600;
+}
+.difficulty-badge.Fácil { background-color: #4CAF50; }
+.difficulty-badge.Média { background-color: #fdd835; color: #333; }
+.difficulty-badge.Difícil { background-color: #e53935; }
+
+
+
+#event-list .event-item {
+    background: var(--light-gray);
+    padding: 1rem;
+    border-left: 5px solid var(--secondary-color);
+    margin-bottom: 1rem;
+    border-radius: 5px;
+}
+
+#event-list h4 { margin: 0 0 0.5rem 0; }
+
+
+footer {
+    background: #333;
+    color: var(--white);
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+    background-color: var(--white);
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    position: relative;
+    animation: fadeIn 0.5s;
+}
+
+.login-modal-content {
+    max-width: 400px;
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#modal-body h3 { font-size: 1.8rem; }
+#modal-body img { 
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+#modal-body .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+#modal-body .info-item {
+    background: var(--light-gray);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+#login-form label {
+    margin-top: 1rem;
+    font-weight: 600;
+}
+#login-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+#login-form button {
+    margin-top: 1.5rem;
+    padding: 12px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    #admin-login-btn {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+    .trail-grid {
+        grid-template-columns: 1fr;
+    }
+}
