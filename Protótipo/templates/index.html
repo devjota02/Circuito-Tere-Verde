@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuito Tere Verde</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Circuito Tere Verde</h1>
+           <a href="/templates/admin_dashboard.html"></a> <button id="admin-login-btn">Login do Administrador</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="intro">
+            <h2>Explore a Biodiversidade e o Ecoturismo de Teresópolis</h2>
+            <p>Descubra as trilhas, a fauna, a flora e os eventos dos parques de Teresópolis em um só lugar. Uma aventura te espera!</p>
+        </section>
+
+        <section id="trails">
+            <h3>Parques e Trilhas</h3>
+            <div id="trail-filter">
+                <span>Filtrar por dificuldade:</span>
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="Fácil">Fácil</button>
+                <button class="filter-btn" data-filter="Média">Média</button>
+                <button class="filter-btn" data-filter="Difícil">Difícil</button>
+            </div>
+            <div id="trail-list" class="trail-grid">
+                </div>
+        </section>
+
+        <section id="events">
+            <h3>Eventos e Novidades</h3>
+            <div id="event-list">
+                </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Circuito Tere Verde. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <div id="trail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modal-body">
+                </div>
+        </div>
+    </div>
+    
+    <div id="login-modal" class="modal">
+        <div class="modal-content login-modal-content">
+            <span class="close-btn">&times;</span>
+            <h4>Acesso Restrito</h4>
+            <form id="login-form">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required minlength="8" maxlength="12">
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

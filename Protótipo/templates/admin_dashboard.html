@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .admin-content { padding: 1rem 2rem; }
+        .admin-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+        .admin-table th, .admin-table td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; }
+        .admin-table th { background-color: #f2f2f2; }
+        .admin-table input[type="text"], .admin-table select, .admin-table textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .admin-table textarea { min-height: 80px; resize: vertical; }
+        .actions-cell { min-width: 180px; text-align: center; }
+        .actions-cell form { display: inline-block; margin: 2px; }
+        .actions-cell button { padding: 8px 12px; border: none; border-radius: 5px; color: white; cursor: pointer; font-weight: bold; }
+        .btn-save { background-color: #2c6b2f; }
+        .btn-delete { background-color: #e53935; }
+        .alert { padding: 15px; margin-bottom: 20px; border-radius: 5px; color: #fff; font-weight: bold; }
+        .alert-success { background-color: #4CAF50; }
+        .alert-danger { background-color: #e53935; }
+        .add-form { background-color: #f9f9f9; padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px; margin-top: 1rem; }
+        .add-form h3 { margin-top: 0; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { margin-bottom: 5px; font-weight: 600; }
+        .btn-add { background-color: #007BFF; padding: 10px 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Painel do Administrador</h1>
+            <a href="{{ url_for('admin_logout') }}" id="admin-login-btn">Sair</a>
+        </div>
+    </header>
+    <main class="admin-content">
+        
+                    <div class="alert alert-{{ category }}"></div>
+             
+
+        <h2>Gerenciar Trilhas</h2>
+        <div style="overflow-x:auto;">
+            <table class="admin-table">
+                <thead><tr><th>Nome</th><th>Parque</th><th>Dificuldade</th><th>Duração</th><th>Distância</th><th>Descrição</th><th>Biodiversidade</th><th>Ações</th></tr></thead>
+                <tbody>
+                    {% for trail in trails %}
+                    <tr>
+                        <td><input type="text" name="name" value="{{ trail.name }}" form="edit-trail-form-{{ trail.id }}"></td>
+                        <td><input type="text" name="park" value="{{ trail.park }}" form="edit-trail-form-{{ trail.id }}"></td>
+                        <td>
+                            <select name="difficulty" form="edit-trail-form-{{ trail.id }}">
+                                <option value="Fácil" {% if trail.difficulty == 'Fácil' %}selected{% endif %}>Fácil</option>
+                                <option value="Média" {% if trail.difficulty == 'Média' %}selected{% endif %}>Média</option>
+                                <option value="Difícil" {% if trail.difficulty == 'Difícil' %}selected{% endif %}>Difícil</option>
+                            </select>
+                        </td>
+                        <td><input type="text" name="duration" value="{{ trail.duration or '' }}" form="edit-trail-form-{{ trail.id }}"></td>
+                        <td><input type="text" name="distance" value="{{ trail.distance or '' }}" form="edit-trail-form-{{ trail.id }}"></td>
+                        <td><textarea name="description" form="edit-trail-form-{{ trail.id }}"></textarea></td>
+                        <td><textarea name="biodiversity" form="edit-trail-form-{{ trail.id }}"></textarea></td>
+                        <td class="actions-cell">
+                            <form id="edit-trail-form-{{ trail.id }}" method="POST" action="{{ url_for('edit_trail', id=trail.id) }}">
+                                <button type="submit" class="btn-save">Salvar</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('delete_trail', id=trail.id) }}">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza?')">Apagar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="add-form">
+            <h3>Adicionar Nova Trilha</h3>
+            <form method="POST" action="{{ url_for('add_trail') }}">
+                <div class="form-grid">
+                    <div class="form-group"><label for="name">Nome</label><input type="text" id="name" name="name" required></div>
+                    <div class="form-group"><label for="park">Parque</label><input type="text" id="park" name="park" required></div>
+                    <div class="form-group">
+                        <label for="difficulty">Dificuldade</label>
+                        <select id="difficulty" name="difficulty"><option value="Fácil">Fácil</option><option value="Média">Média</option><option value="Difícil">Difícil</option></select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-add">Adicionar Trilha</button>
+            </form>
+        </div>
+
+        <hr style="margin: 3rem 0;">
+
+        <h2>Gerenciar Eventos</h2>
+        <div style="overflow-x:auto;">
+            <table class="admin-table">
+                <thead><tr><th>Nome</th><th>Data</th><th>Local</th><th>Descrição</th><th>Ações</th></tr></thead>
+                <tbody>
+                    
+                    <tr>
+                        <td><input type="text" name="name" value="{{ event.name }}" form="edit-event-form-{{ event.id }}"></td>
+                        <td><input type="text" name="date_str" value="{{ event.date_str or '' }}" form="edit-event-form-{{ event.id }}"></td>
+                        <td><input type="text" name="location" value="{{ event.location or '' }}" form="edit-event-form-{{ event.id }}"></td>
+                        <td><textarea name="description" form="edit-event-form-{{ event.id }}">  </textarea></td>
+                        <td class="actions-cell">
+                             <form id="edit-event-form-{{ event.id }}" method="POST" action="{{ url_for('edit_event', id=event.id) }}">
+                                <button type="submit" class="btn-save">Salvar</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('delete_event', id=event.id) }}">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza?')">Apagar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="add-form">
+            <h3>Adicionar Novo Evento</h3>
+            <form method="POST" action="{{ url_for('add_event') }}">
+                <div class="form-grid">
+                    <div class="form-group"><label for="event_name">Nome</label><input id="event_name" type="text" name="name" required></div>
+                    <div class="form-group"><label for="event_date">Data</label><input id="event_date" type="text" name="date_str"></div>
+                    <div class="form-group"><label for="event_location">Local</label><input id="event_location" type="text" name="location"></div>
+                    <div class="form-group full-width"><label for="event_desc"></label><textarea id="event_desc" name="description"></textarea></div>
+                </div>
+                <button type="submit" class="btn-add">Adicionar Evento</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
